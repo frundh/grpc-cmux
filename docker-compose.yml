@@ -1,20 +1,26 @@
-version: '3'
+version: '3.4'
 services:
   grpc-server:
     image: frundh/demo.grpc.server
     build: 
       context: ./src/
       dockerfile: ./Grpc.Server/Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_ENVIRONMENT: Development
     
   grpc-client:
     image: frundh/demo.grpc.client
     build: 
       context: ./src/
       dockerfile: ./Grpc.Client/Dockerfile
-    command: 
-      - send
-      - --channel=http://grpc-server:80
-      - hello 
-      - docker
+    entrypoint: 
+      - /bin/bash
+      - -c
+    command:
+      - |
+        set -euo pipefail
+        sleep 5s
+        grpc-client send --channel=http://grpc-server:80 hello docker
     depends_on: 
       - grpc-server

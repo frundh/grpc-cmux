@@ -5,7 +5,9 @@ RUN set -ex; \
     dotnet publish /src/Grpc.Client -c Release -o /app;
 
 FROM mcr.microsoft.com/dotnet/core/runtime:3.0
+RUN echo '#!/bin/bash\ndotnet /app/Grpc.Client.dll "$@"' > /usr/local/bin/grpc-client && \
+    chmod +x /usr/local/bin/grpc-client
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT [ "dotnet", "Grpc.Client.dll" ]
+ENTRYPOINT [ "grpc-client" ]
 CMD [ "--help" ]
