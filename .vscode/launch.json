@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Grpc.Server",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build Grpc.Server",
+            "program": "./Grpc.Server.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/Grpc.Server/bin/Debug/netcoreapp3.0/",
+            "stopAtEntry": false,
+            "launchBrowser": {
+                "enabled": false
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://0.0.0.0:5000"
+            }
+        },
+        {
+            "name": "Debug Grpc.Client -- send hello",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "Build Grpc.Client",
+            "program": "./Grpc.Client.dll",
+            "args": [
+                "send",
+                "--channel=http://localhost:5000",
+                "hello", "vscode"
+            ],
+            "cwd": "${workspaceFolder}/src/Grpc.Client/bin/Debug/netcoreapp3.0/",
+            "stopAtEntry": false,
+            "launchBrowser": {
+                "enabled": false
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }        
+    ]
+}

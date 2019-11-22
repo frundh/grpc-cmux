@@ -1,0 +1,20 @@
+version: '3'
+services:
+  grpc-server:
+    image: frundh/demo.grpc.server
+    build: 
+      context: ./src/
+      dockerfile: ./Grpc.Server/Dockerfile
+    
+  grpc-client:
+    image: frundh/demo.grpc.client
+    build: 
+      context: ./src/
+      dockerfile: ./Grpc.Client/Dockerfile
+    command: 
+      - send
+      - --channel=http://grpc-server:80
+      - hello 
+      - docker
+    depends_on: 
+      - grpc-server

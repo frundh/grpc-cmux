@@ -1,0 +1,201 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Grpc.sln",
+            "command": "dotnet",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "build",
+                "./Grpc.sln",
+                // Ask dotnet build to generate full paths for file names.
+                "/property:GenerateFullPaths=true",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "Docker-compose build",
+            "command": "docker-compose",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "build",
+            ],
+            "group": "build",
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile",
+        },        
+        {
+            "label": "Build Grpc.Server",
+            "command": "dotnet",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "build",
+                "./src/Grpc.Server/Grpc.Server.csproj",
+                // Ask dotnet build to generate full paths for file names.
+                "/property:GenerateFullPaths=true",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "Docker build Grpc.Server",
+            "command": "docker",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/src/"
+            },
+            "args": [
+                "build",
+                "-f", "./Grpc.Server/Dockerfile",
+                "-t", "frundh/demo.grpc.server",
+                "."
+            ],
+            "group": "build",
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run Grpc.Server",
+            "command": "dotnet",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/src/Grpc.Server/",
+                "env": {
+                    "ASPNETCORE_ENVIRONMENT": "Development",
+                }
+            },
+            "args": [
+                "run",
+                "--project",
+                "./Grpc.Server.csproj"
+            ],
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Build Grpc.Client",
+            "command": "dotnet",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/src/Grpc.Client/"
+            },
+            "args": [
+                "build",
+                "./Grpc.Client.csproj",
+                // Ask dotnet build to generate full paths for file names.
+                "/property:GenerateFullPaths=true",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": "build",
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "Docker build Grpc.Client",
+            "command": "docker",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/src/"
+            },
+            "args": [
+                "build",
+                "-f", "./Grpc.Client/Dockerfile",
+                "-t", "frundh/demo.grpc.client",
+                "."
+            ],
+            "group": "build",
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run Grpc.Client -- send hello",
+            "command": "dotnet",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/src/Grpc.Client/"
+            },
+            "args": [
+                "run",
+                "--project",
+                "./Grpc.Client.csproj",
+                "--",
+                "send",
+                "--channel=http://localhost:5000",
+                "hello", "vscode"
+            ],
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Docker-compose up -- exit after client run",
+            "command": "docker-compose",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "up",
+                "--build",
+                "--exit-code-from", "grpc-client",
+                "--force-recreate",
+                "grpc-server",
+                "grpc-client"
+            ],
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Pack & Push Grpc.Proto",
+            "command": "bash",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/src/Grpc.Proto/"
+            },
+            "args": [
+                "-c",
+                "dotnet pack ./Grpc.Proto.csproj && dotnet nuget push -s http://nuget/v3/index.json ./bin/Debug/Grpc.Proto.1.0.0.nupkg"
+            ],
+            "presentation": {
+                //"reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

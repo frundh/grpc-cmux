@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.10.1" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.25.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.25.0" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.4.4" />
+    <PackageReference Include="McMaster.Extensions.Hosting.CommandLine" Version="2.4.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="../Grpc.Proto/*.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="Grpc.Proto" Version="1.0.0" GeneratePathProperty="true" />
+    <Protobuf Include="$(PkgGrpc_Proto)/content/*.proto" GrpcServices="Client" />
+  </ItemGroup>-->
+
+</Project>

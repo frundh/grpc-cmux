@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.25.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="../Grpc.Proto/*.proto" GrpcServices="Server" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="Grpc.Proto" Version="1.0.0" GeneratePathProperty="true" />
+    <Protobuf Include="$(PkgGrpc_Proto)/content/*.proto" GrpcServices="Both" />
+  </ItemGroup>-->
+
+</Project>
