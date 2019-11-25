@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3'
 services:
   grpc-server:
     image: frundh/demo.grpc.server
@@ -18,9 +18,6 @@ services:
       - /bin/bash
       - -c
     command:
-      - |
-        set -euo pipefail
-        sleep 5s
-        grpc-client send --channel=http://grpc-server:80 hello docker
+      - wait-for-it grpc-server:80 -s -- grpc-client send --channel=http://grpc-server:80 hello docker        
     depends_on: 
       - grpc-server
