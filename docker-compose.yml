@@ -20,5 +20,6 @@ services:
       - |
         wait-for-it grpc-server:80 -s -- grpc-client send --channel=http://grpc-server:80 hello docker
         eval [ $$(curl --write-out %{http_code} --silent --output /dev/null http://grpc-server:80/api/health) = 200 ]
+        eval [ $$(curl -X POST --write-out %{http_code} --silent --output /dev/null http://grpc-server:80/api/greet -H "Content-Type: application/json" -d "{\"name\":\"curl\"}") = 200 ]
     depends_on: 
       - grpc-server

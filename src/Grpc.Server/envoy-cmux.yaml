@@ -29,10 +29,6 @@ static_resources:
                 route:
                   cluster: backend_grpc_service
               - match:
-                  prefix: "/"
-                route:
-                  cluster: backend_http_service                
-              - match:
                   prefix: "/envoy/"
                 route:
                   prefix_rewrite: "/"
@@ -41,6 +37,10 @@ static_resources:
                   prefix: "/envoy"
                 redirect:
                   path_redirect: "/envoy/"
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: backend_http_service                
           http_filters:
           - name: envoy.router
             typed_config: {}
