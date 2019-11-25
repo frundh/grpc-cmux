@@ -22,9 +22,14 @@ namespace Grpc.Server
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        options.ConfigureEndpointDefaults((c) =>
+                        options.ListenAnyIP(5002, listenOptions =>
                         {
-                            c.Protocols = HttpProtocols.Http2;
+                            listenOptions.Protocols = HttpProtocols.Http1;
+                        });
+
+                        options.ListenAnyIP(5004, listenOptions =>
+                        {
+                            listenOptions.Protocols = HttpProtocols.Http2;
                         });
                     });
                     webBuilder.UseStartup<Startup>();

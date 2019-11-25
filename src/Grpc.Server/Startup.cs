@@ -16,6 +16,7 @@ namespace Grpc.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
             services.AddGrpc();
         }
 
@@ -28,6 +29,7 @@ namespace Grpc.Server
             }
 
             app.UseRouting();
+            app.UseHealthChecks("/api/health");
 
             app.UseEndpoints(endpoints =>
             {

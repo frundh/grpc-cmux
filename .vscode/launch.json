@@ -18,7 +18,6 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://0.0.0.0:5000"
             }
         },
         {
@@ -29,7 +28,7 @@
             "program": "./Grpc.Client.dll",
             "args": [
                 "send",
-                "--channel=http://localhost:5000",
+                "--channel=http://localhost:5004",
                 "hello", "vscode"
             ],
             "cwd": "${workspaceFolder}/src/Grpc.Client/bin/Debug/netcoreapp3.0/",

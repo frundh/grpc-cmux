@@ -29,6 +29,10 @@ static_resources:
                 route:
                   cluster: backend_grpc_service
               - match:
+                  prefix: "/"
+                route:
+                  cluster: backend_http_service                
+              - match:
                   prefix: "/envoy/"
                 route:
                   prefix_rewrite: "/"
@@ -41,6 +45,14 @@ static_resources:
           - name: envoy.router
             typed_config: {}
   clusters:
+  - name: backend_http_service
+    connect_timeout: 0.250s
+    type: strict_dns
+    lb_policy: round_robin
+    hosts:
+    - socket_address:
+        address: 127.0.0.1
+        port_value: 5002    
   - name: backend_grpc_service
     connect_timeout: 0.250s
     type: strict_dns
@@ -49,7 +61,7 @@ static_resources:
     hosts:
     - socket_address:
         address: 127.0.0.1
-        port_value: 8080
+        port_value: 5004
 
   - name: admin_service
     connect_timeout: 2.00s
